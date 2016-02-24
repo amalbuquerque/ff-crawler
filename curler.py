@@ -31,11 +31,15 @@ class Curler(object):
         if (self.debug):
             print(msg)
 
-    def init_ajax_curl(self, init=True):
+    def set_URL(self, curl, page):
+        url = str.format('http://en.boerse-frankfurt.de/Ajax/BondSearchResults?borrower=&marketsegment=&bondtype=&maturity=&yield=&rating=&exchange=&coupon=&currency={0}&count=100&p={1}', CURRENCY_CODES[self.currency], page)
+        curl.setopt(curl.URL, url)
+        return curl
+
+    def init_ajax_curl(self, page, init=True):
         self.prt('Igniting the Curl')
         c = pycurl.Curl()
-        url = str.format('http://en.boerse-frankfurt.de/Ajax/BondSearchResults?borrower=&marketsegment=&bondtype=&maturity=&yield=&rating=&exchange=&coupon=&currency={0}&count=100&p=1', CURRENCY_CODES[self.currency])
-        c.setopt(c.URL, url)
+        c = self.set_URL(c, page)
         referer = str.format('http://en.boerse-frankfurt.de/bonds/bonds-finder?borrower=&marketsegment=&bondtype=&maturity=&yield=&rating=&exchange=&coupon=&currency={0}&count=100', CURRENCY_CODES[self.currency])
         c.setopt(c.REFERER, referer)
         c.setopt(c.USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2464.0 Safari/537.36')
@@ -57,8 +61,16 @@ class Curler(object):
             self.curl = c
         return c
 
-    def perform(self):
-        self.init_ajax_curl()
+    def change_page_URL(self, page):
+        if (self.curl != None):
+            self.curl = self.set_URL(self.curl, page)
+
+    def perform(self, page):
+        if (self.curl == None):
+            self.init_ajax_curl(page)
+        else:
+            self.change_page_URL(page)
+
         if (self.curl != None):
             url = self.curl.getinfo(self.curl.EFFECTIVE_URL)
             self.prt('I will now perform the Curl request. URL=' + url)

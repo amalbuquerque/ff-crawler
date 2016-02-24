@@ -23,7 +23,10 @@ def main(*args):
         raise Exception('Problem parsing the options passed')
 
     curler = Curler(prog_args.currency, prog_args.user, prog_args.password, prog_args.debug)
-    curler.perform()
+    # Page=1
+    curler.perform(1)
+    # Page=2
+    curler.perform(2)
 
 if __name__ == '__main__':
     sys.exit(main(*sys.argv))
