@@ -26,7 +26,7 @@ class BondParser(object):
         content = re.sub('<script .*>.*</script>', '', content)
         return content
 
-    def get_page(self, content):
+    def get_last_page(self, content):
         content = self.sanitize(content)
         content = self.remove_scripts(content)
 
@@ -50,7 +50,7 @@ class BondParser(object):
         tr_list = row_selector(toparse)
         td_selector = CSSSelector('td')
         rows = []
-        
+
         for tr in tr_list:
             temp_tds = [td.text_content() for td in td_selector(tr)]
             rows.append(temp_tds)
@@ -69,7 +69,7 @@ class BondParser(object):
         headers = [e.text for e in headers_elements]
         return headers
 
-    def gtp(self):
+    def debug_toparse(self):
         raw = open('C:\\dados\\projectos\\ffcrawler\\resultsimple.txt', 'r').read()
         raw = self.sanitize(raw)
         raw = self.remove_scripts(raw)

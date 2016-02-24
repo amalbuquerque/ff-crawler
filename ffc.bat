@@ -1,2 +1,2 @@
 REM set http_proxy=
-python ffcrawler.py --currency=USD --debug
+python ffcrawler.py --currency=USD
