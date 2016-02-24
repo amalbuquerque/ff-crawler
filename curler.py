@@ -1,8 +1,6 @@
 import ipdb
 import pycurl
 import re
-from lxml import etree
-from lxml.cssselect import CSSSelector
 from StringIO import StringIO
 
 CURRENCY_CODES = {
