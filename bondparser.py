@@ -26,6 +26,8 @@ class BondParser(object):
         content = re.sub('<script .*>.*</script>', '', content)
         return content
 
+    # 2016/03/18 15:45:41, AA: Not working. Argument inside () doesn't have the
+    # last page anymore
     def get_last_page(self, content):
         content = self.sanitize(content)
         content = self.remove_scripts(content)
@@ -64,9 +66,10 @@ class BondParser(object):
         headers_row_selector = CSSSelector('table > thead > tr')
         headers_row = headers_row_selector(toparse)[0]
 
-        header_selector = CSSSelector('th > div > a')
+        header_selector = CSSSelector('th > div > span')
+        # ipdb.set_trace()
         headers_elements = header_selector(headers_row)
-        headers = [e.text for e in headers_elements]
+        headers = [e.text for e in headers_elements if e.text != None]
         return headers
 
     def debug_toparse(self):
