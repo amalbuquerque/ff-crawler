@@ -76,8 +76,7 @@ class Curler(object):
 
         if (self.curl != None):
             url = self.curl.getinfo(self.curl.EFFECTIVE_URL)
-            # self.prt('I will now perform the Curl request. URL=' + url)
-            print('I will now perform the Curl request. URL=' + url)
+            self.prt('I will now perform the Curl request. URL=' + url)
             self.curl.perform()
             self.raw_response = self.response_buffer.getvalue()
         self.prt('Content obtained:')
